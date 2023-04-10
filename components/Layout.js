@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { BsCart3 } from 'react-icons/bs';
+import { Store } from '@/utils/Store';
+import { enToper } from '@/utils/enToper';
 export default function Layout({ title, children }) {
+  const { state } = useContext(Store);
+  const { cart } = state;
   return (
     <>
       <Head>
@@ -19,22 +23,31 @@ export default function Layout({ title, children }) {
       <div className="flex min-h-screen flex-col justify-between">
         <header className="">
           <nav className="flex px-4 h-12 justify-between items-center shadow-md">
-            <div className="flex justify-center items-center">
-              <Link href="/cart" className="p-2   border-r-2">
-                <BsCart3 />
-              </Link>
-              <Link href="/login" className="p-2">
-                ورود
-              </Link>
-            </div>
             <Link href="/" className="text-lg font-bold saffron-color">
               زعفران نطنز
             </Link>
+            <div className="flex justify-center items-center">
+              <Link href="/login" className="p-2">
+                ورود
+              </Link>
+              <Link href="/cart" className="p-2 border-r-2 flex gap-0 ">
+                {cart.cartItems.length > 0 && (
+                  <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white fontsize-1">
+                    {enToper(
+                      cart.cartItems.reduce((a, c) => a + c.quantity, 0)
+                    )}
+                  </span>
+                )}
+                <BsCart3 />
+              </Link>
+            </div>
           </nav>
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
-        <footer className="flex h-10 justify-center items-center shadow-inner">
-          footer
+        <footer className="flex flex-col h-20 justify-center items-center shadow-inner">
+          <div>footer</div>
+          <div>icons</div>
+          <div>address</div>
         </footer>
       </div>
     </>
