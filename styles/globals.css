@@ -16,6 +16,7 @@ body {
 }
 * {
   box-sizing: border-box;
+  direction: rtl;
 }
 .saffron-color {
   color: rgb(255, 87, 51);
