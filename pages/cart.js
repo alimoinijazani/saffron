@@ -6,7 +6,8 @@ import Link from 'next/link';
 import React, { useContext } from 'react';
 import { BsTrashFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
-export default function CartScreen() {
+import dynamic from 'next/dynamic';
+function CartScreen() {
   const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
@@ -115,3 +116,4 @@ export default function CartScreen() {
     </Layout>
   );
 }
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });

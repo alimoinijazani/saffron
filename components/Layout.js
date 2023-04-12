@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { BsCart3 } from 'react-icons/bs';
@@ -7,6 +7,10 @@ import { enToper } from '@/utils/enToper';
 export default function Layout({ title, children }) {
   const { state } = useContext(Store);
   const { cart } = state;
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+  useEffect(() => {
+    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
+  }, [cart.cartItems]);
   return (
     <>
       <Head>
@@ -31,11 +35,9 @@ export default function Layout({ title, children }) {
                 ورود
               </Link>
               <Link href="/cart" className="p-2 border-r-2 flex gap-0 ">
-                {cart.cartItems.length > 0 && (
+                {cartItemsCount > 0 && (
                   <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white fontsize-1">
-                    {enToper(
-                      cart.cartItems.reduce((a, c) => a + c.quantity, 0)
-                    )}
+                    {enToper(cartItemsCount)}
                   </span>
                 )}
                 <BsCart3 />
