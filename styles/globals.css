@@ -19,6 +19,9 @@ body {
   box-sizing: border-box;
   direction: rtl;
 }
+.text-ltr{
+  direction: ltr;
+}
 .saffron-color {
   color: rgb(255, 87, 51);
 }
@@ -30,4 +33,9 @@ body {
 }
 .fontsize-1 {
   font-size: 1rem;
+}
+input,
+select,
+textarea {
+  @apply rounded border p-2 outline-none ring-red-300 focus:ring;
 }
