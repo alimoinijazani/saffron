@@ -15,6 +15,10 @@ export default function CartScreen() {
   const removeItemHandler = (item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
+  const updateCartHandler = (item, qty) => {
+    const quantity = Number(qty);
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+  };
   return (
     <Layout title="Shopping Cart">
       <h1 className="mb-4 text-xl">سبد خرید</h1>
@@ -30,10 +34,10 @@ export default function CartScreen() {
             <table className="min-w-full">
               <thead className="border-b">
                 <tr>
-                  <th className="px-5 text-left">Item</th>
-                  <th className="p-5 text-right">Quantity</th>
-                  <th className="px-5 text-right">Price</th>
-                  <th className="p-5">Action</th>
+                  <th className="px-5 text-right">کالا</th>
+                  <th className="p-5 text-right">تعداد</th>
+                  <th className="px-5 text-right">مبلغ</th>
+                  <th className="p-5">حذف</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,7 +59,20 @@ export default function CartScreen() {
                         {item.name}
                       </Link>
                     </td>
-                    <td className="p-5 text-right">{enToper(item.quantity)}</td>
+                    <td className="p-5 text-right">
+                      <select
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateCartHandler(item, e.target.value)
+                        }
+                      >
+                        {[...Array(item.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {enToper(x + 1)}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
                     <td className="p-5 text-right">
                       {enToper(item.price)} تومان
                     </td>
