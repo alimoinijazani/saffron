@@ -5,16 +5,26 @@ import { BsCart3 } from 'react-icons/bs';
 import { Store } from '@/utils/Store';
 import { enToper } from '@/utils/enToper';
 import { ToastContainer } from 'react-toastify';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+import { Menu } from '@headlessui/react';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+import { CgProfile } from 'react-icons/cg';
+import { CiShoppingBasket } from 'react-icons/ci';
+import { RxExit } from 'react-icons/rx';
 export default function Layout({ title, children }) {
-  const { state } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const { status, data: session } = useSession();
   useEffect(() => {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
   }, [cart.cartItems]);
+  const logoutClickHandler = () => {
+    Cookies.remove('cart');
+    dispatch({ type: 'CART_RESET' });
+    signOut({ callbackUrl: '/login' });
+  };
   return (
     <>
       <Head>
@@ -39,7 +49,34 @@ export default function Layout({ title, children }) {
               {status === 'loading' ? (
                 'loading'
               ) : session?.user ? (
-                session.user.name
+                <Menu as="div" className="relative inline-block">
+                  <Menu.Button className="text-blue-600">
+                    {session.user.name}
+                  </Menu.Button>
+                  <Menu.Items className="absolute left-0 w-56 origin-top-left shadow-lg bg-white rounded p-1 ">
+                    <Menu.Item className="border-b">
+                      <Link className="dropdown-link " href="/profile">
+                        <CgProfile className="ml-2 " /> {session.user.name}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link className="dropdown-link" href="/order-history">
+                        <CiShoppingBasket className="ml-2" />
+                        سفارش ها
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link
+                        className="dropdown-link"
+                        href="/#"
+                        onClick={logoutClickHandler}
+                      >
+                        <RxExit className="ml-2" />
+                        خروج
+                      </Link>
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
               ) : (
                 <Link href="/login" className="p-2">
                   ورود

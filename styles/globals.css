@@ -15,11 +15,14 @@ html,
 body {
   font-family: 'roboto';
 }
+a {
+  @apply text-blue-600 hover:text-blue-800;
+}
 * {
   box-sizing: border-box;
   direction: rtl;
 }
-.text-ltr{
+.text-ltr {
   direction: ltr;
 }
 .saffron-color {
@@ -38,4 +41,7 @@ input,
 select,
 textarea {
   @apply rounded border p-2 outline-none ring-red-300 focus:ring;
+}
+.dropdown-link {
+  @apply flex p-2 hover:text-red-200 items-center justify-start;
 }
