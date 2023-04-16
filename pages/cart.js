@@ -7,6 +7,8 @@ import React, { useContext } from 'react';
 import { BsTrashFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 function CartScreen() {
   const { state, dispatch } = useContext(Store);
   const {
@@ -16,9 +18,15 @@ function CartScreen() {
   const removeItemHandler = (item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
-  const updateCartHandler = (item, qty) => {
+  const updateCartHandler = async (item, qty) => {
     const quantity = Number(qty);
+    const { data } = await axios.get(`/api/products/${item._id}`);
+    if (data.countInStock < quantity) {
+      return toast.error('کالا موجود نیست');
+    }
+
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+    toast.success('کالا به سبد اضافه شد');
   };
   return (
     <Layout title="Shopping Cart">
