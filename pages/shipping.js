@@ -153,7 +153,7 @@ export default function ShippingScreen() {
         </div>
         <div className="mb-4 flex justify-between">
           <button type="submit" className="primary-button">
-            Next
+            بعدی
           </button>
         </div>
       </form>

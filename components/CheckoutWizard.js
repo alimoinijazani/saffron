@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function CheckoutWizard({ activeStep = 0 }) {
-  const steps = ['ورود به حساب کاربری', 'آدرس', 'پرداخت', 'ثبت سفارش'];
+  const steps = ['ورود به حساب کاربری', 'آدرس', 'نحوه پرداخت ', 'ثبت سفارش'];
   return (
     <div className="mb-5 flex flex-wrap">
       {steps.map((step, index) => (
