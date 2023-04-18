@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { enToper } from '@/utils/enToper';
 import Link from 'next/link';
 import React from 'react';
 
@@ -17,7 +18,7 @@ export default function ProductItem({ product, addToCartHandler }) {
           <h2 className="text-lg">{product.name}</h2>
         </Link>
         <p className="mb-2">{product.brand}</p>
-        <p>${product.price}</p>
+        <p>{enToper(product.price)} تومان</p>
         <button
           className="primary-button"
           type="button"
