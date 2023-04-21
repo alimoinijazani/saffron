@@ -44,50 +44,41 @@ export default function OrderHistoryScreen() {
         <div className="alert-error">{error}</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead className="border">
+          <table className="min-w-full ">
+            <thead>
               <tr>
-                <th className="px-5 text-left border border-indigo-400">
-                  {' '}
-                  آیدی
-                </th>
-                <th className="p-5 text-right border border-indigo-400">
-                  تاریخ
-                </th>
-                <th className="p-5 text-right border border-indigo-400">جمع</th>
-                <th className="p-5 text-right border border-indigo-400">
-                  پرداخت
-                </th>
-                <th className="p-5 text-right border border-indigo-400">
-                  ارسال
-                </th>
-                <th className="p-5 text-right border border-indigo-400"></th>
+                <th className="px-5 text-right "> ردیف</th>
+                <th className="px-5 text-right "> آیدی</th>
+                <th className="p-5 text-right ">تاریخ</th>
+                <th className="p-5 text-right ">جمع</th>
+                <th className="p-5 text-right ">پرداخت</th>
+                <th className="p-5 text-right ">ارسال</th>
+                <th className="p-5 text-right ">عملیات</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="[&>*:nth-child(odd)]:bg-gray-50">
               {orders.map((order) => (
                 <tr key={order._id}>
-                  <td className=" p-5 border border-indigo-400">
-                    {order._id.substring(20, 24)}
+                  <td className=" p-2 ">
+                    {enToper(orders.indexOf(order) + 1)}
                   </td>
-                  <td className=" p-5 border border-indigo-400">
-                    {order.createdAt.substring(0, 10)}
-                  </td>
-                  <td className=" p-5 border border-indigo-400">
-                    {enToper(order.totalPrice)}
-                  </td>
-                  <td className=" p-5 border border-indigo-400">
+                  <td className=" p-5 ">{order._id.substring(20, 24)}</td>
+                  <td className=" p-5 ">{order.createdAt.substring(0, 10)}</td>
+                  <td className=" p-5 ">{enToper(order.totalPrice)}</td>
+                  <td className=" p-5 ">
                     {order.isPaid
                       ? `${order.paidAt.substring(0, 10)}`
                       : 'پرداخت نشده'}
                   </td>
-                  <td className=" p-5 border border-indigo-400">
+                  <td className=" p-5 ">
                     {order.isDelivered
                       ? `${order.deliveredAt.substring(0, 10)}`
                       : 'ارسال نشده'}
                   </td>
-                  <td className=" p-5 border border-indigo-400">
-                    <Link href={`/order/${order._id}`} passHref></Link>
+                  <td className=" p-5 ">
+                    <Link href={`/order/${order._id}`} passHref>
+                      جزئیات
+                    </Link>
                   </td>
                 </tr>
               ))}

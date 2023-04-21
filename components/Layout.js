@@ -50,7 +50,7 @@ export default function Layout({ title, children }) {
                 'loading'
               ) : session?.user ? (
                 <Menu as="div" className="relative inline-block">
-                  <Menu.Button className="text-blue-600">
+                  <Menu.Button className="text-blue-600 ml-2">
                     {session.user.name}
                   </Menu.Button>
                   <Menu.Items className="absolute left-0 w-56 origin-top-left shadow-lg bg-white rounded p-1 ">

@@ -55,3 +55,6 @@ textarea {
 .alert-success {
   @apply my-3 rounded-lg bg-green-100 p-3 text-green-700;
 }
+.table tr:nth-child {
+  @apply bg-gray-400;
+}
