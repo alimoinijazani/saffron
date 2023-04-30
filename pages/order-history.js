@@ -53,6 +53,7 @@ export default function OrderHistoryScreen() {
                 <th className="p-5 text-right ">جمع</th>
                 <th className="p-5 text-right ">پرداخت</th>
                 <th className="p-5 text-right ">ارسال</th>
+                <th className="p-5 text-right ">در حال بررسی</th>
                 <th className="p-5 text-right ">عملیات</th>
               </tr>
             </thead>
@@ -75,7 +76,14 @@ export default function OrderHistoryScreen() {
                       ? `${order.deliveredAt.substring(0, 10)}`
                       : 'ارسال نشده'}
                   </td>
-                  <td className=" p-5 ">
+                  <td className="p-4">
+                    {order.isCheck ? (
+                      <span className="text-green-500">بلی</span>
+                    ) : (
+                      <span className="text-red-500">خیر</span>
+                    )}
+                  </td>
+                  <td className=" p-4 ">
                     <Link href={`/order/${order._id}`} passHref>
                       جزئیات
                     </Link>

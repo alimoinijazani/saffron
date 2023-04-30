@@ -17,6 +17,7 @@ export default function Layout({ title, children }) {
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const { status, data: session } = useSession();
+
   useEffect(() => {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
   }, [cart.cartItems]);
@@ -51,12 +52,13 @@ export default function Layout({ title, children }) {
               ) : session?.user ? (
                 <Menu as="div" className="relative inline-block">
                   <Menu.Button className="text-blue-600 ml-2">
-                    {session.user.name}
+                    <CgProfile className="scale-150" />
                   </Menu.Button>
                   <Menu.Items className="absolute left-0 w-56 origin-top-left shadow-lg bg-white rounded p-1 ">
                     <Menu.Item className="border-b">
                       <Link className="dropdown-link " href="/profile">
-                        <CgProfile className="ml-2 " /> {session.user.name}
+                        <CgProfile className="ml-2 " />{' '}
+                        {session.user.name || session.user.image}
                       </Link>
                     </Menu.Item>
                     <Menu.Item>

@@ -16,6 +16,7 @@
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "js-cookie": "^3.0.1",
+    "kavenegar": "^1.1.4",
     "mongoose": "^7.0.3",
     "next": "13.3.0",
     "next-auth": "^4.22.0",

@@ -1,12 +1,13 @@
 import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
-import { useEffect, useReducer } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getError } from '../../utils/error';
 import Link from 'next/link';
 import Image from 'next/image';
 import { enToper } from '@/utils/enToper';
+import { Store } from '@/utils/Store';
 // import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,6 +34,7 @@ function OrderScreen() {
   //   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const { query } = useRouter();
   const { id: orderId } = query;
+  const router = useRouter();
   const [{ loading, error, order, successPay }, dispatch] = useReducer(
     reducer,
     {
@@ -41,15 +43,17 @@ function OrderScreen() {
       error: '',
     }
   );
+  const { dispatch: ctxDispatch } = useContext(Store);
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(`/api/orders/${orderId}`);
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        ctxDispatch({ type: 'SAVE_ORDER', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
-
         toast.error(getError(err));
       }
     };
@@ -72,7 +76,7 @@ function OrderScreen() {
       //   };
       //   loadPaypalScript();
     }
-  }, [order, orderId, successPay]);
+  }, [ctxDispatch, order, orderId, successPay]);
   const {
     shippingAddress,
     paymentMethod,
@@ -234,6 +238,15 @@ function OrderScreen() {
                     <div>جمع</div>
                     <div>{enToper(totalPrice)} تومان</div>
                   </div>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className="primary-button block w-full"
+                    onClick={() => router.push(`/cardpay/${order._id}`)}
+                  >
+                    انتقال به صفحه کارت به کارت
+                  </button>
                 </li>
                 {!isPaid && (
                   <li>

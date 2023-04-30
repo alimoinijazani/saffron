@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 export default function Paymentmethod() {
-  const methods = ['درگاه پرداخت', 'کارت به کارت'];
+  const methods = ['لینک پرداخت', 'کارت به کارت'];
   const router = useRouter();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const { state, dispatch } = useContext(Store);

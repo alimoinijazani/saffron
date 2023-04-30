@@ -10,7 +10,7 @@ export default function LoginScreen() {
   const { data: session } = useSession();
   const router = useRouter();
   const { redirect } = router.query;
- 
+
   useEffect(() => {
     if (session?.user) {
       router.push(redirect || '/');

@@ -25,6 +25,9 @@ a {
 .text-ltr {
   direction: ltr;
 }
+.text-rtl {
+  direction: rtl;
+}
 .saffron-color {
   color: rgb(255, 87, 51);
 }
@@ -33,6 +36,9 @@ a {
 }
 .primary-button {
   @apply rounded bg-red-300 py-2 px-4 shadow outline-none hover:bg-red-400 active:bg-red-500;
+}
+.secondary-button {
+  @apply rounded bg-blue-500 text-white py-4 px-6 shadow outline-none hover:bg-blue-700 active:bg-blue-900;
 }
 .default-button {
   @apply rounded bg-gray-100 py-2 px-4 text-black shadow outline-none hover:bg-gray-200 active:bg-gray-300;

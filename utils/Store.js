@@ -6,7 +6,7 @@ export const Store = createContext();
 const initialState = {
   cart: Cookies.get('cart')
     ? JSON.parse(Cookies.get('cart'))
-    : { cartItems: [], shippingAddress: {} },
+    : { cartItems: [], shippingAddress: {}, orderItems: [] },
 };
 
 function reducer(state, action) {
@@ -24,6 +24,7 @@ function reducer(state, action) {
       Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+
     case 'CART_REMOVE_ITEM': {
       const cartItems = state.cart.cartItems.filter(
         (item) => item.slug !== action.payload.slug
@@ -38,6 +39,7 @@ function reducer(state, action) {
           cartItems: [],
           shippingAddress: { location: {} },
           paymentMethod: '',
+          orderItems: [],
         },
       };
     case 'SAVE_SHIPPING_ADDRESS':
@@ -59,6 +61,13 @@ function reducer(state, action) {
           paymentMethod: action.payload,
         },
       };
+    case 'SAVE_ORDER': {
+      const newOrder = action.payload;
+      console.log(state.cart.orderItems);
+      const orderItems = [newOrder];
+      Cookies.set('cart', JSON.stringify({ ...state.cart, orderItems }));
+      return { ...state, cart: { ...state.cart, orderItems } };
+    }
     default:
       return state;
   }
