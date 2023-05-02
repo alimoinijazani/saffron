@@ -51,6 +51,7 @@ export default function PlaceOrderScreen() {
           cartItems: [],
         })
       );
+      toast.success('سفارش ثبت شد')
       router.push(`/order/${data._id}`);
     } catch (err) {
       setLoading(false);
