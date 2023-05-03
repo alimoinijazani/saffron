@@ -12,6 +12,8 @@ import Cookies from 'js-cookie';
 import { CgProfile } from 'react-icons/cg';
 import { CiShoppingBasket } from 'react-icons/ci';
 import { RxExit } from 'react-icons/rx';
+import { useRouter } from 'next/router';
+import { FiSearch } from 'react-icons/fi';
 export default function Layout({ title, children }) {
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
@@ -25,6 +27,13 @@ export default function Layout({ title, children }) {
     Cookies.remove('cart');
     dispatch({ type: 'CART_RESET' });
     signOut({ callbackUrl: '/login' });
+  };
+  const [query, setQuery] = useState('');
+
+  const router = useRouter();
+  const submitHandler = (e) => {
+    e.preventDefault();
+    router.push(`/search?query=${query}`);
   };
   return (
     <>
@@ -46,6 +55,25 @@ export default function Layout({ title, children }) {
             <Link href="/" className="text-lg font-bold saffron-color">
               زعفران نطنز
             </Link>
+            <form
+              onSubmit={submitHandler}
+              className="mx-auto  hidden w-full justify-center md:flex"
+            >
+              {' '}
+              <input
+                onChange={(e) => setQuery(e.target.value)}
+                type="text"
+                className="rounded-tr-none rounded-br-none p-1 text-sm   focus:ring-0"
+                placeholder="Search products"
+              />
+              <button
+                className="rounded rounded-tl-none rounded-bl-none bg-red-300 p-1 text-sm dark:text-black"
+                type="submit"
+                id="button-addon2"
+              >
+                <FiSearch className="h-5 w-5"></FiSearch>
+              </button>
+            </form>
             <div className="flex justify-center items-center">
               {status === 'loading' ? (
                 'loading'
