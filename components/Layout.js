@@ -14,6 +14,7 @@ import { CiShoppingBasket } from 'react-icons/ci';
 import { RxExit } from 'react-icons/rx';
 import { useRouter } from 'next/router';
 import { FiSearch } from 'react-icons/fi';
+import Footer from './footer';
 export default function Layout({ title, children }) {
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
@@ -125,11 +126,7 @@ export default function Layout({ title, children }) {
           </nav>
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
-        <footer className="flex flex-col h-20 justify-center items-center shadow-inner">
-          <div>footer</div>
-          <div>icons</div>
-          <div>address</div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

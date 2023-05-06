@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout';
 import ProductItem from '@/components/ProductItem';
+import Slider from '@/components/slider';
 import Product from '@/models/Product';
 import { Store } from '@/utils/Store';
 
@@ -8,7 +9,9 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { toast } from 'react-toastify';
 
-export default function Home({ products }) {
+export default function Home({ products, featuredProducts }) {
+  //slider
+
   const { state, dispatch } = useContext(Store);
 
   const addToCartHandler = async (product) => {
@@ -22,8 +25,11 @@ export default function Home({ products }) {
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
     toast.success('کالا به سبد اضافه شد');
   };
+  console.log(featuredProducts);
   return (
     <Layout>
+      <Slider featuredProducts={featuredProducts} />
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
           <ProductItem
@@ -40,5 +46,11 @@ export default function Home({ products }) {
 export async function getServerSideProps() {
   await db.connect();
   const products = await Product.find().lean();
-  return { props: { products: products.map(db.convertDocToObj) } };
+  const featuredProducts = await Product.find({ isFeatured: true }).lean();
+  return {
+    props: {
+      featuredProducts: featuredProducts.map(db.convertDocToObj),
+      products: products.map(db.convertDocToObj),
+    },
+  };
 }
