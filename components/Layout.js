@@ -14,6 +14,7 @@ import { CiShoppingBasket } from 'react-icons/ci';
 import { RxExit } from 'react-icons/rx';
 import { useRouter } from 'next/router';
 import { FiSearch } from 'react-icons/fi';
+import { CgProductHunt } from 'react-icons/cg';
 import Footer from './footer';
 export default function Layout({ title, children }) {
   const { state, dispatch } = useContext(Store);
@@ -83,7 +84,7 @@ export default function Layout({ title, children }) {
                   <Menu.Button className="text-blue-600 ml-2">
                     <CgProfile className="scale-150" />
                   </Menu.Button>
-                  <Menu.Items className="absolute left-0 w-56 origin-top-left shadow-lg bg-white rounded p-1 ">
+                  <Menu.Items className="absolute left-0 w-56 origin-top-left shadow-lg bg-white rounded p-1 z-50">
                     <Menu.Item className="border-b">
                       <Link className="dropdown-link " href="/profile">
                         <CgProfile className="ml-2 " />{' '}
@@ -94,6 +95,12 @@ export default function Layout({ title, children }) {
                       <Link className="dropdown-link" href="/order-history">
                         <CiShoppingBasket className="ml-2" />
                         سفارش ها
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link className="dropdown-link" href="/products">
+                        <CgProductHunt className="ml-2" />
+                        محصولات
                       </Link>
                     </Menu.Item>
                     <Menu.Item>
