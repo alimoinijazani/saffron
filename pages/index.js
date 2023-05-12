@@ -25,7 +25,7 @@ export default function Home({ products, featuredProducts }) {
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
     toast.success('کالا به سبد اضافه شد');
   };
-  console.log(featuredProducts);
+
   return (
     <Layout>
       <Slider featuredProducts={featuredProducts} />
