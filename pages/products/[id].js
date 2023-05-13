@@ -3,6 +3,7 @@ import { getError } from '@/utils/error';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useReducer, useState } from 'react';
+
 // import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
@@ -22,18 +23,13 @@ const reducer = (state, action) => {
 export default function ProductEdit() {
   const { query } = useRouter();
   const { id: productId } = query;
-
+  const router = useRouter();
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     loading: true,
     product: {},
     error: '',
   });
-  // const {
-  //   handleSubmit,
-  //   register,
-  //   setValue,
-  //   formState: { errors },
-  // } = useForm();
+
   const [isFeatured, setIsFeatured] = useState(product.isFeatured || false);
   const [name, setName] = useState(product.name || '');
   const [slug, setSlug] = useState(product.slug || '');
@@ -42,6 +38,8 @@ export default function ProductEdit() {
   const [description, setDescription] = useState(product.description || '');
   const [image, setImage] = useState(product.image || '');
   const [countInStock, setCountInStock] = useState(product.countInStock || '');
+
+  const [imageSrc, setImageSrc] = useState(product.image || '');
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -56,6 +54,7 @@ export default function ProductEdit() {
         setDescription(data.description || '');
         setIsFeatured(data.isFeatured || '');
         setImage(data.image || '');
+
         setCountInStock(data.countInStock || '');
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
@@ -68,17 +67,7 @@ export default function ProductEdit() {
     ) {
       fetchOrder();
     }
-    const setData = () => {
-      // setShow(product.isFeatured);
-      // setValue('slug', slug || '');
-      // setValue('name', name || '');
-      // setValue('category', category || '');
-      // setValue('price', price || '');
-      // setValue('description', description || '');
-      // setValue('isFeatured', product.isFeatured || '');
-      // setValue('image', image || '');
-      // setValue('countInStock', countInStock || '');
-    };
+    const setData = () => {};
     if (product) {
       setData();
     }
@@ -107,12 +96,47 @@ export default function ProductEdit() {
         image,
         countInStock,
       });
+      router.push('/products');
       toast.success('product updated');
     } catch (err) {
       console.log(err);
     }
   };
+  // function handleOnChange(changeEvent) {
+  //   const reader = new FileReader();
 
+  //   reader.onload = function(onLoadEvent) {
+  //     setImageSrc(onLoadEvent.target.result);
+  //     setUploadData(undefined);
+  //   }
+
+  //   reader.readAsDataURL(changeEvent.target.files[0]);
+  // }
+  async function uploadFileHandler(e) {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append('file', file);
+
+    bodyFormData.append('upload_preset', 'my-uploads');
+    try {
+      const data = await fetch(
+        `https://api.cloudinary.com/v1_1/duro2a1d2/image/upload`,
+        {
+          method: 'POST',
+          body: bodyFormData,
+        }
+      ).then((r) => r.json());
+      setImage(data.secure_url);
+      setImageSrc(data.secure_url);
+
+      toast.success('image upload');
+    } catch (err) {
+      toast.error(err);
+    }
+  }
+  console.log(imageSrc);
   return (
     <Layout>
       <h1 className="mb-4 text-lg">{`محصول ${productId}`}</h1>
@@ -146,122 +170,94 @@ export default function ProductEdit() {
             <label htmlFor="slug">نام منحصر</label>
             <input
               type="text"
-              // {...register('slug', {
-              //   required: 'لطفا ایمیل خود را وارد کنید',
-              // })}
               className="w-full"
               id="slug"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
             ></input>
-            {/* {errors.slug && (
-              <div className="text-red-500">{errors.slug.message}</div>
-            )} */}
           </div>
           <div className="mb-4">
             <label htmlFor="category">گروه</label>
             <input
               type="text"
-              // {...register('category', {
-              //   required: 'لطفا پسورد وارد کنید',
-              //   minLength: {
-              //     value: 6,
-              //     message: 'password is more than 5 chars',
-              //   },
-              // })}
               className="w-full"
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             ></input>
-            {/* {errors.category && (
-              <div className="text-red-500 ">{errors.category.message}</div>
-            )} */}
           </div>
           <div className="mb-4 ">
             <label htmlFor="image">تصویر</label>
             <div className="flex">
               <input
                 type="text"
-                // {...register('image', {
-                //   required: 'لطفا عکس وارد کنید',
-                //   minLength: {
-                //     value: 6,
-                //     message: 'password is more than 5 chars',
-                //   },
-                // })}
                 className="w-full "
                 id="image"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
+                disabled
               ></input>{' '}
-              <Image src={image} alt="My Image" width={30} height={30} />
             </div>
-            {/* {errors.image && (
-              <div className="text-red-500 ">{errors.image.message}</div>
-            )} */}
           </div>
           <div className="mb-4">
             <label htmlFor="price">قیمت</label>
             <input
               type="number"
-              // {...register('price', {
-              //   required: 'لطفا مبلغ وارد کنید',
-              // })}
               className="w-full"
               id="price"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             ></input>
-            {/* {errors.price && (
-              <div className="text-red-500 ">{errors.price.message}</div>
-            )} */}
           </div>
 
           <div className="mb-4">
             <label htmlFor="countInStock">موجودی</label>
             <input
               type="text"
-              // {...register('countInStock', {
-              //   required: 'لطفا مبلغ وارد کنید',
-              // })}
               className="w-full"
               id="countInStock"
               value={countInStock}
               onChange={(e) => setCountInStock(e.target.value)}
             ></input>
-            {/* {errors.countInStock && (
-              <div className="text-red-500 ">{errors.countInStock.message}</div>
-            )} */}
           </div>
           <div className="mb-4">
             <label htmlFor="price">توضیحات</label>
             <input
               type="text"
-              // {...register('description', {
-              //   required: 'لطفا توضیحات وارد کنید',
-              // })}
               className="w-full"
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></input>
-            {/* {errors.description && (
-              <div className="text-red-500 ">{errors.description.message}</div>
-            )} */}
           </div>
-          <div className="mb-4">
-            <label htmlFor=" isFeatured">نمایش ویترین</label>
-            <input
-              type="checkbox"
-              className="w-full"
-              id="isFeatured"
-              checked={isFeatured}
-              onChange={() => setIsFeatured(!isFeatured)}
-            ></input>
-          </div>
+
           <div className="mb-4 text-center">
-            <button type="submit" className="primary-button">
+            <div className="flex justify-between w-full">
+              <label htmlFor="profile-picture">انتخاب عکس</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={uploadFileHandler}
+              />{' '}
+              <Image
+                src={imageSrc ? imageSrc : image}
+                alt="My Image"
+                width={50}
+                height={50}
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
+            </div>
+            <div className="my-4 flex ">
+              <label htmlFor=" isFeatured">نمایش در ویترین</label>
+              <input
+                type="checkbox"
+                className="w-full"
+                id="isFeatured"
+                checked={isFeatured}
+                onChange={() => setIsFeatured(!isFeatured)}
+              ></input>
+            </div>
+            <button type="submit" className="primary-button mt-4">
               تایید
             </button>
           </div>

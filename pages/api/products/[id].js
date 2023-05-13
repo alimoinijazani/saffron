@@ -20,7 +20,7 @@ const handler = async (req, res) => {
       (product.category = category),
       (product.price = price),
       (product.description = description),
-      (product.isFeatured = isFeatured),
+      (product.isFeatured = isFeatured || false),
       (product.image = image),
       (product.countInStock = countInStock),
       await product.save();

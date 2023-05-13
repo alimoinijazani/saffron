@@ -3,6 +3,7 @@ import { SessionProvider, useSession } from 'next-auth/react';
 import { StoreProvider } from '@/utils/Store';
 import { useRouter } from 'next/router';
 import { Analytics } from '@vercel/analytics/react';
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
