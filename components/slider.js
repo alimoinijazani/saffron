@@ -3,9 +3,9 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
 export default function Slider({ featuredProducts }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const prevSlide = ({ featuredProducts }) => {
+  const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
+
     const newIndex = isFirstSlide
       ? featuredProducts.length - 1
       : currentIndex - 1;
@@ -21,6 +21,7 @@ export default function Slider({ featuredProducts }) {
   const goToSlide = (slideIndex) => {
     setCurrentIndex(slideIndex);
   };
+
   return (
     <div className="max-w-[1400px] h-[680px] w-full m-auto py-10 px-4 relative group">
       <div

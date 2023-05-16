@@ -27,6 +27,18 @@ const handler = async (req, res) => {
     await db.disconnect();
     res.send({ message: 'product edited' });
   }
+  if (req.method === 'DELETE') {
+    await db.connect();
+    const product = await Product.findById(req.query.id);
+    if (product) {
+      await Product.deleteOne({ _id: req.query.id });
+      res.send({ message: 'product delete from backend' });
+    } else {
+      res.status(404).send({ message: 'product already deleted' });
+    }
+
+    await db.disconnect();
+  }
   await db.connect();
   const product = await Product.findById(req.query.id);
   await db.disconnect();

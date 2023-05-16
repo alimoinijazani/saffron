@@ -136,7 +136,7 @@ export default function ProductEdit() {
       toast.error(err);
     }
   }
-  console.log(imageSrc);
+
   return (
     <Layout>
       <h1 className="mb-4 text-lg">{`محصول ${productId}`}</h1>
