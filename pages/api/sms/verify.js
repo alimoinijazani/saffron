@@ -21,13 +21,15 @@ const handler = async (req, res) => {
   });
   api.VerifyLookup(
     {
-      receptor: '09046424513',
+      // receptor: '09046424513',
+      receptor: req.mobile,
       token: '12345',
       template: 'registerverify',
     },
     function (response, status) {
-      console.log(response);
-      console.log(status);
+      // console.log(response);
+      // console.log(status);
+      res.status(status).send(response);
     }
   );
 };

@@ -105,7 +105,9 @@ function CartScreen() {
                   <div>
                     جمع جز({cartItems.reduce((a, c) => a + c.quantity, 0)}):
                   </div>{' '}
-                  {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}{' '}
+                  {enToper(
+                    cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
+                  )}{' '}
                   تومان
                 </div>
               </li>

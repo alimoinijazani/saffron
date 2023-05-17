@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { getError } from '@/utils/error';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 export default function Cardpay() {
   const [cardNumber1, setCardNumber1] = useState('');
@@ -48,7 +48,7 @@ export default function Cardpay() {
     if (e.target.value === '' || /^\d{1,4}$/.test(e.target.value))
       setCardNumber4(e.target.value);
   };
-  const [loading, setLoading] = useState(false);
+  const [setLoading] = useState(false);
   const handlePay = async () => {
     try {
       setLoading(true);

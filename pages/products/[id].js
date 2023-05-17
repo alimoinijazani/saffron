@@ -133,7 +133,7 @@ export default function ProductEdit() {
 
       toast.success('image upload');
     } catch (err) {
-      toast.error(err);
+      toast.error(getError(err));
     }
   }
 
